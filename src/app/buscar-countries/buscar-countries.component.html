@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>Buscar País</h2>
+
+  <!-- Input para la busqueda -->
+  <mat-form-field class="full-width">
+    <mat-label>Nombre del país</mat-label>
+    <input matInput type="text" #searchInput placeholder="España, Argentina, Brasil">
+  </mat-form-field>
+
+  <!-- Boton para buscar, usamos el evento click -->
+  <button mat-raised-button color="primary" (click)="searchCountry()">Buscar</button>
+
+  <!-- Spinner que usamos de carga -->
+  <div class="spinner-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Listamos los países con ngFor -->
+  <div class="country-list" *ngIf="countries.length > 0">
+    <mat-card *ngFor="let country of countries" class="country-card">
+      <mat-card-header>
+        <mat-card-title>{{ country.name.common }}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image [src]="country.flags.svg" [alt]="country.name.common">
+      <mat-card-content>
+        <p><strong>Capital:</strong> {{ country.capital ? country.capital[0] : 'No disponible' }}</p>
+        <p><strong>Población:</strong> {{ country.population | number }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Mensaje si no hay resultados -->
+  <p *ngIf="!loading && searchInput && countries.length === 0" class="no-results">
+    No se encontraron resultados.
+  </p>
+</div>
